@@ -123,6 +123,18 @@
   roles:
     - role: geerlingguy.pip
 
+-
+  # install GNU Radio Software with Apt
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Add PPA repository for GNU Radio
+    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.9
+  - name: Apt install GNU Radio
+    apt:
+      name: gnuradio
+      update_cache: yes
+
 - 
   # install sudo for the vs-code role below 
   hosts: localhost
