@@ -45,6 +45,14 @@
   roles:
   - role: irixjp.role_example_hello
 
+  - role: andrewrothstein.openjdk
+    openjdk_app: jdk
+    openjdk_ver:
+      major: 11
+      minor: 0
+      patch: 8
+      b: 10
+
 # Add additional plays here (remember the list entry -)
 # Be sure to use the same hosts and connection entries above
 # addtional plays
