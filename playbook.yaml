@@ -126,6 +126,24 @@
     - role: geerlingguy.pip
 
 -
+  # install Git LFS
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Download Git LFS
+    shell: wget https://github.com/git-lfs/git-lfs/releases/download/v3.1.2/git-lfs-linux-amd64-v3.1.2.tar.gz
+  - name: Create directory for extracting Git LFS tarball
+    shell: mkdir git-lfs-linux-amd64-v3.1.2
+  - name: Extract Git LFS file contents
+    shell: tar -xvf git-lfs-linux-amd64-v3.1.2.tar.gz -C git-lfs-linux-amd64-v3.1.2
+  - name: Delete Git LFS tarball
+    shell: rm git-lfs-linux-amd64-v3.1.2.tar.gz
+  - name: Install Git LFS
+    shell: ./git-lfs-linux-amd64-v3.1.2/install.sh
+  - name: Delete Git LFS tarball directory
+    shell: rm -rf git-lfs-linux-amd64-v3.1.2
+
+-
   # install GNU Radio Software with Apt
   hosts: localhost
   connection: local
