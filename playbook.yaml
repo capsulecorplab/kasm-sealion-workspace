@@ -27,7 +27,7 @@
   - name: Set wsl2_environment fact True
     set_fact:
       wsl2_environment: true
-    when: ansible_kernel is search("microsoft-standard-WSL2")  
+    when: ansible_kernel is search("microsoft-standard-WSL2")
   # fix for .gnupg/ permissions when building custom images
   - name: Add fix for .gnupg/ permissions
     lineinfile:
@@ -176,6 +176,65 @@
     apt:
       name: gdb-multiarch
       update_cache: yes
+
+-
+  # install GPredict
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Install libtool
+    apt:
+      name: libtool
+      update_cache: yes
+  - name: Install intltool
+    apt:
+      name: intltool
+      update_cache: yes
+  - name: Install autoconf
+    apt:
+      name: autoconf
+      update_cache: yes
+  - name: Install automake
+    apt:
+      name: automake
+      update_cache: yes
+  - name: Install libcurl4-openssl-dev
+    apt:
+      name: libcurl4-openssl-dev
+      update_cache: yes
+  - name: Install pkg-config
+    apt:
+      name: pkg-config
+      update_cache: yes
+  - name: Install libglib2.0-dev
+    apt:
+      name: libglib2.0-dev
+      update_cache: yes
+  - name: Install libgtk-3-dev
+    apt:
+      name: libgtk-3-dev
+      update_cache: yes
+  - name: Install libgoocanvas-2.0-dev
+    apt:
+      name: libgoocanvas-2.0-dev
+      update_cache: yes
+  - name: Download GPredict tarball
+    shell: wget https://github.com/csete/gpredict/releases/download/v2.2.1/gpredict-2.2.1.tar.bz2 -O /home/kasm-default-profile/gpredict-2.2.1.tar.bz2
+  - name: Extract GPredict source files
+    unarchive:
+      src: /home/kasm-default-profile/gpredict-2.2.1.tar.bz2
+      dest: /home/kasm-default-profile/
+      remote_src: yes
+      creates: /home/kasm-default-profile/gpredict-2.2.1/README
+  - name: Delete GPredict tarball
+    shell: rm /home/kasm-default-profile/gpredict-2.2.1.tar.bz2
+  - name: Build GPredict
+    shell:
+      cmd: ./configure && make > /tmp/gpredict_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/gpredict-2.2.1/
+      executable: /bin/bash
+  - name: Delete GPredict source files
+    shell: rm -rf /home/kasm-default-profile/gpredict-2.2.1/
 
 -
   # install GNU Radio Software with Apt
