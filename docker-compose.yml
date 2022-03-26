@@ -3,7 +3,7 @@ version: "3.7"
 services:
   kasm:
     build: .
-    image: kasm-sealion-workspace
+    image: ghcr.io/ODU-CGA-CubeSat/kasm-sealion-workspace:main
     ports:
       - "6901:6901"
     environment:
