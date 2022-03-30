@@ -139,6 +139,7 @@
         - notebook
         - voila
         - pint
+        - MarkupSafe==2.0.1
         - fprime-tools
         - fprime-gds
 
