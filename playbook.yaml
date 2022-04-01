@@ -49,6 +49,24 @@
 # Be sure to use the same hosts and connection entries above
 # addtional plays
 -
+  # install Eclipse
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Download Eclipse IDE for Embedded C/C++ tarball
+    shell: wget https://eclipse.mirror.rafal.ca/technology/epp/downloads/release/2022-03/R/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz -O /home/kasm-default-profile/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz
+  - name: Unarchive Eclipse IDE for Embedded C/C++ tarball
+    unarchive:
+      src: /home/kasm-default-profile/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz
+      dest: /opt/
+      remote_src: yes
+      creates: /opt/eclipse/readme/readme_eclipse.html
+  - name: Delete Eclipse IDE for Embedded C/C++ tarball
+    shell: rm /home/kasm-default-profile/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz
+  - name: Create symbolic link to Eclipse IDE for Embedded C/C++ binary
+    shell: ln -srv /opt/eclipse/eclipse /usr/local/bin/
+
+-
   # install OpenJDK 11
   hosts: localhost
   connection: local
