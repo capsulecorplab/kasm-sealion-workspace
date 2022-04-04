@@ -50,23 +50,6 @@
 # addtional plays
 
 -
-  # install Eclipse
-  hosts: localhost
-  connection: local
-  tasks:
-  - name: Download Eclipse IDE for Embedded C/C++ tarball
-    shell: wget https://eclipse.mirror.rafal.ca/technology/epp/downloads/release/2022-03/R/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz -O /home/kasm-default-profile/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz
-  - name: Unarchive Eclipse IDE for Embedded C/C++ tarball
-    unarchive:
-      src: /home/kasm-default-profile/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz
-      dest: /home/kasm-default-profile/
-      remote_src: yes
-  - name: Delete Eclipse IDE for Embedded C/C++ tarball
-    shell: rm /home/kasm-default-profile/eclipse-embedcpp-2022-03-R-linux-gtk-x86_64.tar.gz
-  - name: Export $HOME/eclipse/ to PATH
-    shell: echo 'export PATH="$HOME/eclipse/:$PATH"' >> /home/kasm-default-profile/.bashrc
-
--
   # install OpenJDK 11
   hosts: localhost
   connection: local
@@ -85,6 +68,29 @@
     shell: update-alternatives --install /usr/bin/java java /opt/jdk-11/bin/java 100
   - name: Update alternatives so the command, javac, points to installed jdk
     shell: update-alternatives --install /usr/bin/javac javac /opt/jdk-11/bin/javac 100
+
+-
+  # install Eclipse
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Download Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
+    shell: wget https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2019-03/R/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz -O /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
+  - name: Unarchive Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
+    unarchive:
+      src: /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
+      dest: /home/kasm-default-profile/
+      remote_src: yes
+  - name: Delete Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
+    shell: rm /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
+  - name: Create directory for eclipse/jre/
+    shell: mkdir /home/kasm-default-profile/eclipse/jre/
+  - name: Create directory for eclipse/jre/bin/
+    shell: mkdir /home/kasm-default-profile/eclipse/jre/bin/
+  - name: Create symlink to java binary
+    shell: ln -sv /opt/jdk-11/bin/java /home/kasm-default-profile/eclipse/jre/bin/java
+  - name: Export $HOME/eclipse/ to PATH
+    shell: echo 'export PATH="$HOME/eclipse/:$PATH"' >> /home/kasm-default-profile/.bashrc
 
 -
   # install chrome
