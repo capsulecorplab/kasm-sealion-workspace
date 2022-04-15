@@ -27,10 +27,7 @@ NOTE: To Windows 10 users: Windows Command Prompt will not satisfy this dependen
 ## How to Use this Repo
 
 1. Clone this repo and change directory into `kasm-sealion-workspace`.
-1. Run `docker-compose build` (Note: Linux users may need to prepend this command with `sudo`) to build the workspace image.  Note, debugging build errors is easier when you switch the docker-compose [progress mode](https://docs.docker.com/engine/reference/commandline/compose_build/#options) to plain (`docker-compose build --progress plain`).  Alternatively, you can pull the published version (when available) by calling `docker-compose pull`.
-1. Be sure to add a repository secret named `GHCR_AUTH_TOKEN` containing a valid token value with packages write access to properly enable GitHub CI.
-
-If you encounter Ansible errors, revise the requirements and playbook files as necessary.  
+1. Run `docker-compose pull` (Note: Linux users may need to prepend this command with `sudo`) to pull the published version of the workspace image.  
 
 ## Using the image locally
 
