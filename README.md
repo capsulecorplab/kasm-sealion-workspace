@@ -4,11 +4,23 @@
 
 This repo provides a workspace for the SeaLion team to work on GNU Radio, Flight Software, & Ground Station based on the [Ansible based template for KASM Ubuntu Focal Images](https://github.com/j-simmons-phd/kasm-core-focal-template) template provided by @j-simmons-phd.  The workspace is configured with the following software:
 
+- Cross Compile Toolchain for embedded Linux
+  - gcc-arm-linux-gnueabihf
+  - g++-arm-linux-gnueabihf
+  - gdb-multiarch
+  - build-essential
+  - [cmake v3.2](http://www.cmake.org/files/v3.2)
 - git cli
+- [git lfs](https://git-lfs.github.com/)
 - [Keychain](https://www.funtoo.org/Keychain)
 - Chrome
+- Eclipse IDE for Embedded C/C++ (2019-03 release)
+- [GNU Radio Software](https://www.gnuradio.org/)
+- [GPredict](http://gpredict.oz9aec.net/)
 - Python 3.8.x (part of the image template) with the following packages (not part of the image template)
     - pip
+    - [fprime-tools](https://github.com/fprime-community/fprime-tools)
+    - [fprime-gds](https://github.com/fprime-community/fprime-gds)
     - [JupyterLab](https://jupyter.org/)
     - [Jupyter Notebook](https://jupyter.org/)
     - [Voilà](https://voila.readthedocs.io/en/stable/index.html)
