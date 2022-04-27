@@ -50,6 +50,23 @@
 # addtional plays
 
 -
+  # install Minicom from debian package
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Download Minicom debian package
+    shell: wget http://launchpadlibrarian.net/458236105/minicom_2.7.1-1.1_amd64.deb -O /home/kasm-default-profile/minicom_2.7.1-1.1_amd64.deb
+  - name: Install Minicom debian package
+    shell: dpkg -i /home/kasm-default-profile/minicom_2.7.1-1.1_amd64.deb
+  - name: Add USER to dialout group
+    user:
+      name: default
+      shell: /bin/bash
+      groups: "dialout"
+      state: present
+      remove: yes
+
+-
   # install OpenJDK 11
   hosts: localhost
   connection: local
