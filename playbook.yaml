@@ -400,9 +400,9 @@
   hosts: localhost
   connection: local
   tasks:
-  - name: Add PPA repository for GNU Radio
-    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.9
-  - name: Apt install GNU Radio
+  - name: Add PPA repository for GNU Radio v3.8
+    shell: add-apt-repository ppa:gnuradio/gnuradio-releases-3.8
+  - name: Apt install GNU Radio v3.8 with Apt
     apt:
       name: gnuradio
       update_cache: yes
