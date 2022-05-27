@@ -50,6 +50,31 @@
 # addtional plays
 
 -
+  # Install doctools
+  hosts: localhost
+  connection: local
+  tags: install_doctools
+
+  roles:
+    - role: geerlingguy.ruby
+
+  tasks:
+  - name: Download jabref deb
+    shell: wget https://github.com/JabRef/jabref/releases/download/v5.6/jabref_5.6-1_amd64.deb -O /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+  - name: install jabref
+    apt:
+      deb: /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+      update_cache: yes
+  - name: Delete jabref deb
+    shell: rm /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+  - name: install asciidoctor-bibtex as ruby gem
+    shell: gem install asciidoctor-bibtex
+  - name: install asciidoctor-diagram as ruby gem
+    shell: gem install asciidoctor-diagram
+  - name: install asciidoctor-pdf as ruby gem
+    shell: gem install asciidoctor-pdf
+
+-
   # install Minicom from debian package
   hosts: localhost
   connection: local
