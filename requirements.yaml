@@ -3,5 +3,4 @@
 - irixjp.role_example_hello           # https://galaxy.ansible.com/irixjp/role_example_hello
 - webarchitect609.google_chrome       # https://galaxy.ansible.com/webarchitect609/google_chrome
 - gantsign.visual-studio-code         # https://galaxy.ansible.com/gantsign/visual-studio-code
-- geerlingguy.ruby                    # https://galaxy.ansible.com/geerlingguy/ruby
 ...

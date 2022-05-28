@@ -50,31 +50,6 @@
 # addtional plays
 
 -
-  # Install doctools
-  hosts: localhost
-  connection: local
-  tags: install_doctools
-
-  roles:
-    - role: geerlingguy.ruby
-
-  tasks:
-  - name: Download jabref deb
-    shell: wget https://github.com/JabRef/jabref/releases/download/v5.6/jabref_5.6-1_amd64.deb -O /home/kasm-default-profile/jabref_5.6-1_amd64.deb
-  - name: install jabref
-    apt:
-      deb: /home/kasm-default-profile/jabref_5.6-1_amd64.deb
-      update_cache: yes
-  - name: Delete jabref deb
-    shell: rm /home/kasm-default-profile/jabref_5.6-1_amd64.deb
-  - name: install asciidoctor-bibtex as ruby gem
-    shell: gem install asciidoctor-bibtex
-  - name: install asciidoctor-diagram as ruby gem
-    shell: gem install asciidoctor-diagram
-  - name: install asciidoctor-pdf as ruby gem
-    shell: gem install asciidoctor-pdf
-
--
   # install Minicom from debian package
   hosts: localhost
   connection: local
@@ -317,6 +292,49 @@
       executable: /bin/bash
   - name: Delete cmake source files
     shell: rm -rf /home/kasm-default-profile/cmake-3.2.2/
+
+-
+  # Install doctools
+  hosts: localhost
+  connection: local
+  tags: install_doctools
+
+  tasks:
+  - name: Download ruby v3.1.2 source tarball
+    shell: wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz -O /home/kasm-default-profile/ruby-3.1.2.tar.gz
+  - name: Extract ruby source tarball
+    unarchive:
+      src: /home/kasm-default-profile/ruby-3.1.2.tar.gz
+      dest: /home/kasm-default-profile
+      remote_src: yes
+      creates: /home/kasm-default-profile/ruby-3.1.2
+  - name: Delete ruby source tarball
+    shell: rm -rf /home/kasm-default-profile/ruby-3.1.2.tar.gz
+  - name: Build ruby
+    shell:
+      cmd: make configure && ./configure --prefix=/usr && make > /tmp/ruby_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/ruby-3.1.2
+      executable: /bin/bash
+  - name: Delete ruby source files
+    shell: rm -rf /home/kasm-default-profile/ruby-3.1.2
+  - name: Download jabref deb
+    shell: wget https://github.com/JabRef/jabref/releases/download/v5.6/jabref_5.6-1_amd64.deb -O /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+  - name: install jabref
+    apt:
+      deb: /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+      update_cache: yes
+  - name: Delete jabref deb
+    shell: rm /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+  - name: install zlib with Apt
+    apt:
+      name: zlib1g-dev
+      update_cache: yes
+  - name: install asciidoctor-bibtex as ruby gem
+    shell: gem install asciidoctor-bibtex
+  - name: install asciidoctor-diagram as ruby gem
+    shell: gem install asciidoctor-diagram
+  - name: install asciidoctor-pdf as ruby gem
+    shell: gem install asciidoctor-pdf
 
 -
   # install GPredict
