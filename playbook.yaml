@@ -67,6 +67,22 @@
       remove: yes
 
 -
+  # Configure pulseaudio
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Apt install pulseaudio-utils with Apt
+    apt:
+      name: pulseaudio-utils
+      update_cache: yes
+  - name: Set up user attributes in /etc/passwd
+    shell: echo "default:x:1000:1000:default User,,,:/home/default:/bin/bash" >> /etc/passwd
+  - name: Connect to the host's server using the mounted UNIX socket
+    shell: echo "default-server = unix:/run/user/1000/pulse/native" >> /etc/pulse/client.conf
+  - name: Prevent the use of shared memory
+    shell: echo "enable-shm = false" >> /etc/pulse/client.conf
+
+-
   # install OpenJDK 11
   hosts: localhost
   connection: local
