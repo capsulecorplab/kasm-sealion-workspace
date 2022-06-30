@@ -50,6 +50,56 @@
 # addtional plays
 
 -
+  # install Octave
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Install Octave with Apt
+    apt:
+      name: octave
+      update_cache: yes
+  - name: Install octave-doc with Apt
+    apt:
+      name: octave-doc
+      update_cache: yes
+  - name: Install octave-info with Apt
+    apt:
+      name: octave-info
+      update_cache: yes
+  - name: Install octave-htmldoc with Apt
+    apt:
+      name: octave-htmldoc
+      update_cache: yes
+  - name: Install liboctave-dev with Apt
+    apt:
+      name: liboctave-dev
+      update_cache: yes
+  - name: Install octave-control with Apt
+    apt:
+      name: octave-control
+      update_cache: yes
+  - name: Install octave-image with Apt
+    apt:
+      name: octave-image
+      update_cache: yes
+  - name: Install octave-io with Apt
+    apt:
+      name: octave-io
+      update_cache: yes
+  - name: Install octave-optim with Apt
+    apt:
+      name: octave-optim
+      update_cache: yes
+  - name: Install octave-signal with Apt
+    apt:
+      name: octave-signal
+      update_cache: yes
+  - name: Install octave-statistics with Apt
+    apt:
+      name: octave-statistics
+      update_cache: yes
+
+-
   # install Minicom from debian package
   hosts: localhost
   connection: local
