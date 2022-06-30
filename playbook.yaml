@@ -314,9 +314,9 @@
         - notebook
         - voila
         - pint
-        - MarkupSafe==2.0.1
-        - fprime-tools
-        - fprime-gds
+  - name: Install fprime python packages & dependencies
+    pip:
+      requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.0/requirements.txt
 
 -
   # install Git LFS
