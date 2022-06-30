@@ -15,6 +15,7 @@ This repo provides a workspace for the SeaLion team to work on GNU Radio, Flight
 - [Keychain](https://www.funtoo.org/Keychain)
 - Chrome
 - Eclipse IDE for Embedded C/C++ (2019-03 release)
+- [General Mission Analysis Tool](https://documentation.help/GMAT/)
 - [GNU Octave](https://octave.org/)
 - [GNU Radio Software](https://www.gnuradio.org/)
 - [GPredict](http://gpredict.oz9aec.net/)

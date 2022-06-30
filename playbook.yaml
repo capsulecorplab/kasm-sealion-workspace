@@ -50,6 +50,22 @@
 # addtional plays
 
 -
+  # install GMAT
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Download GMAT tarball
+    shell: wget https://sourceforge.net/projects/gmat/files/GMAT/GMAT-R2020a/gmat-ubuntu-x64-R2020a.tar.gz -O /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+  - name: Extract GMAT tarball to /opt
+    unarchive:
+      src: /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+      dest: /opt
+      remote_src: yes
+      creates: /opt/GMAT/R2020a/README.txt
+  - name: Delete GMAT tarball
+    shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+
+-
   # install Octave
   hosts: localhost
   connection: local
