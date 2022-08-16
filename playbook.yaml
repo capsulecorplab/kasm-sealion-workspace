@@ -315,6 +315,7 @@
         - voila
         - pint
         - setuptools
+        - bikeshed
   - name: Install fprime python packages & dependencies
     pip:
       requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.0/requirements.txt
@@ -555,6 +556,69 @@
       name: dev
       state: absent
       remove: yes 
+
+-
+  # Install OML Tools
+  hosts: localhost
+  connection: local
+  tags: install_oml
+
+  tasks:
+  - name: Download Rosetta 1.3.1 zip file for linux x86_64
+    shell: wget https://github.com/opencaesar/oml-rosetta/releases/download/1.3.1/rosetta-1.3.1-linux.gtk.x86_64.zip
+  - name: Unzip Rosetta RCP
+    unarchive:
+      src: /home/kasm-default-profile/rosetta-1.3.1-linux.gtk.x86_64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+  - name: Delete Rosetta zip file
+    shell: rm rosetta-1.3.1-linux.gtk.x86_64.zip
+  - name: symlink Rosetta executable into /usr/local/bin/
+    file:
+      src: /usr/local/bin/Rosetta/Rosetta
+      dest: /usr/local/bin/rosetta
+      owner: root
+      group: root
+      state: link
+  - name: Install R helper packages
+    apt:
+      name: software-properties-common, dirmngr
+      update_cache: yes
+      install_recommends: no
+  - name: Install OML tutorials R dependencies
+    apt:
+      name: libxml2-dev, libcurl4-openssl-dev, libssl-dev, gfortran, libblas-dev, liblapack-dev
+      update_cache: yes
+  - name: Add R repos signing key
+    shell:
+      cmd: wget -qO- https://cloud.r-project.org/bin/linux/ubuntu/marutter_pubkey.asc | tee -a /etc/apt/trusted.gpg.d/cran_ubuntu_key.asc
+  - name: Add the R 4.0 repo from CRAN
+    shell:
+      cmd: add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
+  - name: Install R
+    apt:
+      name: r-base
+      update_cache: yes
+      install_recommends: no
+  - name: Download R Studio deb file
+    shell: wget https://download1.rstudio.org/desktop/bionic/amd64/rstudio-2022.07.1-554-amd64.deb
+  - name: Install R Studio
+    apt:
+      deb: /home/kasm-default-profile/rstudio-2022.07.1-554-amd64.deb
+      update_cache: yes
+  - name: Delete R Studio file
+    shell: rm rstudio-2022.07.1-554-amd64.deb
+  - name: Add Stardog aptkey
+    shell:
+      cmd: curl http://packages.stardog.com/stardog.gpg.pub | apt-key add
+  - name: Add stardog repo
+    shell:
+      cmd: echo "deb http://packages.stardog.com/deb/ stable main" >> /etc/apt/sources.list
+  - name: Install stardog
+    apt:
+      name: stardog
+      update_cache: yes
+      install_recommends: yes
 
 # Three dots indicate the end of a YAML document
 ...
