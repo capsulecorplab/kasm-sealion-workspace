@@ -148,6 +148,8 @@
       groups: "dialout"
       state: present
       remove: yes
+  - name: remove Minicom debian package
+    shell: rm /home/kasm-default-profile/minicom_2.7.1-1.1_amd64.deb
 
 -
   # Configure pulseaudio
