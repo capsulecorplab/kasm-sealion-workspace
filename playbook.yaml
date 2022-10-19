@@ -335,9 +335,9 @@
         - bikeshed
         - rdflib==6.2.0
         - linkml==1.3.8
-  - name: Install fprime python packages & dependencies
+  - name: Install fprime (v3.1.1) python packages & dependencies
     pip:
-      requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.0/requirements.txt
+      requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.1/requirements.txt
 
 -
   # install Git LFS
