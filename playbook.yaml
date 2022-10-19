@@ -65,6 +65,10 @@
       remote_src: yes
   - name: Delete PharoLauncher zip file
     shell: rm /home/kasm-default-profile/PharoLauncher-linux-3.0.1-x64.zip
+  - name: Create local application folder for PharoLauncher
+    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
+  - name: Configure PharoLauncher desktop shortcut
+    shell: echo "[Desktop Entry]\nName=Pharo\nGenericName=Pharo\nExec=/home/kasm-user/pharolauncher/pharo-launcher\nIcon=/home/kasm-user/pharolauncher/icons/pharo-launcher.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/pharo.desktop
 
 -
   # install GMAT
