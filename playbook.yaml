@@ -320,6 +320,9 @@
   hosts: localhost
   connection: local
   gather_facts: yes
+  tags:
+    - install_python_packages
+    - install_avr_build_tools
 
   tasks:
   - name: Update OS to point python to python3
@@ -367,6 +370,10 @@
   # install Cross-compile toolchain for embedded Linux target
   hosts: localhost
   connection: local
+  gather_facts: yes
+  tags:
+    - install_cross_compile_toolchain
+    - install_avr_build_tools
   tasks:
   - name: Install gcc-arm-linux-gnueabihf with Apt
     apt:
@@ -379,6 +386,10 @@
   - name: Install gdb-multiarch with Apt
     apt:
       name: gdb-multiarch
+      update_cache: yes
+  - name: Install libssl-dev
+    apt:
+      name: libssl-dev
       update_cache: yes
   - name: Install build-essential with Apt
     apt:
