@@ -52,6 +52,19 @@
 # addtional plays
 
 -
+  # Install gs-avr-toolchain
+  hosts: localhost
+  connection: local
+  tags: install_gs_avr_toolchain
+
+  tasks:
+  - name: Install gs-avr-toolchain
+    shell:
+      cmd: /home/kasm-default-profile/install_files/avr_toolchain/gs-avr32-toolchain-3.4.2_gs1/install-avr32.sh
+      chdir: /home/kasm-default-profile/install_files/avr_toolchain/gs-avr32-toolchain-3.4.2_gs1/
+      executable: /bin/bash
+
+-
   # Install PharoLauncher
   hosts: localhost
   connection: local
@@ -325,6 +338,7 @@
   tags:
     - install_python_packages
     - install_avr_build_tools
+    - install_gs_avr_toolchain
 
   tasks:
   - name: Update OS to point python to python3
@@ -376,6 +390,7 @@
   tags:
     - install_cross_compile_toolchain
     - install_avr_build_tools
+    - install_gs_avr_toolchain
   tasks:
   - name: Install gcc-arm-linux-gnueabihf with Apt
     apt:
