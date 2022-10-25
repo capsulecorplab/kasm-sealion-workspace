@@ -38,21 +38,21 @@ else
 echo "Installing $package_name Binaries for $arch"
 tar xfz avr32-gnu-toolchain-3.4.2_gs1.435-linux.any.$arch.tar.gz
 if [ ! -d /usr/local/avr32 ]; then
-sudo mkdir /usr/local/avr32
+mkdir /usr/local/avr32
 fi
-sudo cp -ra avr32-gnu-toolchain-linux_$arch/* /usr/local/avr32/
+cp -ra avr32-gnu-toolchain-linux_$arch/* /usr/local/avr32/
 rm -rf ./avr32-gnu-toolchain-linux_$arch
 
 echo "Installing $package_name Utilities for $arch"
 tar xfz avr32-utilities-$arch.tar.gz
-sudo cp -ra avr32-utilities-$arch/bin/* /usr/bin
-sudo cp -ra avr32-utilities-$arch/share/* /usr/share
-sudo cp -ra avr32-utilities-$arch/etc/* /etc
+cp -ra avr32-utilities-$arch/bin/* /usr/bin
+cp -ra avr32-utilities-$arch/share/* /usr/share
+cp -ra avr32-utilities-$arch/etc/* /etc
 rm -rf avr32-utilities-$arch
 
 echo "Installing $package_name Headers"
 unzip -q atmel-headers-6.1.3.1475.zip
-sudo cp -ra atmel-headers-6.1.3.1475/avr32/ /usr/local/avr32/avr32/include/
+cp -ra atmel-headers-6.1.3.1475/avr32/ /usr/local/avr32/avr32/include/
 rm -rf atmel-headers-6.1.3.1475
 
 echo "Checking environment"
