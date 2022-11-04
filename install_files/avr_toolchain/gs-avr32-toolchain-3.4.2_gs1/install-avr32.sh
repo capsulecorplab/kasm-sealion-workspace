@@ -60,8 +60,8 @@ echo "Checking environment"
 add_to_path='/usr/local/avr32/bin'
 if ! grep -q "PATH.*$add_to_path" ~/.profile; then
 echo "Setting up PATH: Adding $add_to_path to PATH"
-echo "PATH=\$PATH:$add_to_path" >> ~/.profile
-export PATH=\$PATH:$add_to_path
+echo "PATH=$PATH:$add_to_path" >> ~/.profile
+export PATH=$PATH:$add_to_path
 echo $PATH
 fi
 # Setup aliases
