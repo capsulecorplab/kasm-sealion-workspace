@@ -192,10 +192,12 @@
   # install OpenJDK 11
   hosts: localhost
   connection: local
+  tags: install_openjdk
+
   tasks:
-  - name: Download OpenJDK 11 tarball
-    shell: wget https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_linux-x64_bin.tar.gz -O /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
-  - name: Extract OpenJDK 11 binaries
+  - name: Rejoin files for OpenJDK 11 tarball
+    shell: cat /home/kasm-default-profile/install_files/openjdk-11+28_linux-x64_bin.tar.gz.part* > /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
+  - name: Extract OpenJDK 11 tarball to /opt
     unarchive:
       src: /home/kasm-default-profile/openjdk-11+28_linux-x64_bin.tar.gz
       dest: /opt
