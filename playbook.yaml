@@ -79,15 +79,11 @@
   tags: install_pharolauncher
 
   tasks:
-  - name: Download PharoLauncher (v3.0.1) zip file
-    shell: wget https://files.pharo.org/pharo-launcher/3.0.1/PharoLauncher-linux-3.0.1-x64.zip
   - name: Unzip Pharo (v3.0.1) for 64-bit Linux
     unarchive:
-      src: /home/kasm-default-profile/PharoLauncher-linux-3.0.1-x64.zip
+      src: /home/kasm-default-profile/install_files/PharoLauncher-linux-3.0.1-x64.zip
       dest: /home/kasm-default-profile/
       remote_src: yes
-  - name: Delete PharoLauncher zip file
-    shell: rm /home/kasm-default-profile/PharoLauncher-linux-3.0.1-x64.zip
   - name: Create local application folder for PharoLauncher
     shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
   - name: Configure PharoLauncher desktop shortcut
