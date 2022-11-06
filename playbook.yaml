@@ -159,11 +159,11 @@
   # install Minicom from debian package
   hosts: localhost
   connection: local
+  tags: install_minicom
+
   tasks:
-  - name: Download Minicom debian package
-    shell: wget http://launchpadlibrarian.net/458236105/minicom_2.7.1-1.1_amd64.deb -O /home/kasm-default-profile/minicom_2.7.1-1.1_amd64.deb
-  - name: Install Minicom debian package
-    shell: dpkg -i /home/kasm-default-profile/minicom_2.7.1-1.1_amd64.deb
+  - name: Install Minicom debian package from install_files
+    shell: dpkg -i /home/kasm-default-profile/install_files/minicom_2.7.1-1.1_amd64.deb
   - name: Add USER to dialout group
     user:
       name: default
@@ -171,8 +171,6 @@
       groups: "dialout"
       state: present
       remove: yes
-  - name: remove Minicom debian package
-    shell: rm /home/kasm-default-profile/minicom_2.7.1-1.1_amd64.deb
 
 -
   # Configure pulseaudio
