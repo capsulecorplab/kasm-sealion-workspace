@@ -93,9 +93,11 @@
   # install GMAT
   hosts: localhost
   connection: local
+  tags: install_gmat
+
   tasks:
-  - name: Download GMAT tarball
-    shell: wget https://sourceforge.net/projects/gmat/files/GMAT/GMAT-R2020a/gmat-ubuntu-x64-R2020a.tar.gz -O /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+  - name: Join parts of GMAT tarball
+    shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2020a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
   - name: Extract GMAT tarball to /opt
     unarchive:
       src: /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
