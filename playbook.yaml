@@ -204,7 +204,9 @@
   # install OpenJDK 11
   hosts: localhost
   connection: local
-  tags: install_openjdk
+  tags:
+  - install_openjdk
+  - install_eclipse
 
   tasks:
   - name: Rejoin files for OpenJDK 11 tarball
@@ -226,9 +228,11 @@
   # install Eclipse
   hosts: localhost
   connection: local
+  tags: install_eclipse
+
   tasks:
-  - name: Download Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
-    shell: wget https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2019-03/R/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz -O /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
+  - name: Join file parts for Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
+    shell: cat /home/kasm-default-profile/install_files/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz.part* > /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
   - name: Unarchive Eclipse IDE for Embedded C/C++ (2019-03 release) tarball
     unarchive:
       src: /home/kasm-default-profile/eclipse-cpp-2019-03-R-linux-gtk-x86_64.tar.gz
