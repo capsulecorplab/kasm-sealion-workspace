@@ -248,6 +248,10 @@
     shell: ln -sv /opt/jdk-11/bin/java /home/kasm-default-profile/eclipse/jre/bin/java
   - name: Export $HOME/eclipse/ to PATH
     shell: echo 'export PATH="$HOME/eclipse/:$PATH"' >> /home/kasm-default-profile/.bashrc
+  - name: Create local application folder
+    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
+  - name: Configure Eclipse IDE desktop shortcut
+    shell: echo "[Desktop Entry]\nName=Eclipse\nGenericName=Eclipse IDE\nExec=/home/kasm-user/eclipse/eclipse\nIcon=/home/kasm-user/eclipse/plugins/org.eclipse.platform_4.11.0.v20190307-0500/eclipse48.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/eclipse.desktop
 
 -
   # install chrome
