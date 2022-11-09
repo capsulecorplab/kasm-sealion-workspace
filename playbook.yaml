@@ -96,6 +96,10 @@
   tags: install_gmat
 
   tasks:
+  - name: Install GMAT dependencies with Apt
+    apt:
+      name: libopengl0, libpython3.6-dev
+      update_cache: yes
   - name: Join parts of GMAT tarball
     shell: cat /home/kasm-default-profile/install_files/gmat-ubuntu-x64-R2020a.tar.gz.part* > /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
   - name: Extract GMAT tarball to /opt
