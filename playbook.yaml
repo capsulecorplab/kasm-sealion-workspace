@@ -112,6 +112,10 @@
       creates: /opt/GMAT/R2020a/README.txt
   - name: Delete GMAT tarball
     shell: rm /home/kasm-default-profile/gmat-ubuntu-x64-R2020a.tar.gz
+  - name: Create local application folder
+    shell: mkdir -p /home/kasm-default-profile/.local/share/applications/
+  - name: Configure GMAT desktop shortcut
+    shell: echo "[Desktop Entry]\nName=GMAT\nGenericName=GMAT\nExec=/opt/GMAT/R2020a/bin/GMAT_Beta\nIcon=/opt/GMAT/R2020a/data/graphics/icons/GMATLogo.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Education;" > ~/.local/share/applications/gmat.desktop
 
 -
   # install Octave
