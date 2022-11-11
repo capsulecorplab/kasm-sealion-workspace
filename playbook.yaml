@@ -411,6 +411,7 @@
     - install_cross_compile_toolchain
     - install_avr_build_tools
     - install_gs_avr_toolchain
+
   tasks:
   - name: Install gcc-arm-linux-gnueabihf with Apt
     apt:
@@ -432,16 +433,12 @@
     apt:
       name: build-essential
       update_cache: yes
-  - name: Download cmake tarball
-    shell: wget http://www.cmake.org/files/v3.23/cmake-3.23.1.tar.gz -O /home/kasm-default-profile/cmake-3.23.1.tar.gz
   - name: Extract cmake source files
     unarchive:
-      src: /home/kasm-default-profile/cmake-3.23.1.tar.gz
+      src: /home/kasm-default-profile/install_files/cmake-3.23.1.tar.gz
       dest: /home/kasm-default-profile/
       remote_src: yes
       creates: /home/kasm-default-profile/cmake-3.23.1/README
-  - name: Delete cmake tarball
-    shell: rm /home/kasm-default-profile/cmake-3.23.1.tar.gz
   - name: Build cmake
     shell:
       cmd: ./configure && make > /tmp/cmake_build_output.txt 2>&1 && make install
