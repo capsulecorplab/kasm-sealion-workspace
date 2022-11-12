@@ -531,23 +531,17 @@
     apt:
       name: libgoocanvas-2.0-dev
       update_cache: yes
-  - name: Download GPredict tarball
-    shell: wget https://github.com/csete/gpredict/releases/download/v2.2.1/gpredict-2.2.1.tar.bz2 -O /home/kasm-default-profile/gpredict-2.2.1.tar.bz2
   - name: Extract GPredict source files
     unarchive:
-      src: /home/kasm-default-profile/gpredict-2.2.1.tar.bz2
-      dest: /home/kasm-default-profile/
+      src: /home/kasm-default-profile/install_files/gpredict-2.2.1.tar.bz2
+      dest: /home/kasm-default-profile/install_files
       remote_src: yes
       creates: /home/kasm-default-profile/gpredict-2.2.1/README
-  - name: Delete GPredict tarball
-    shell: rm /home/kasm-default-profile/gpredict-2.2.1.tar.bz2
   - name: Build GPredict
     shell:
       cmd: ./configure && make > /tmp/gpredict_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/gpredict-2.2.1/
+      chdir: /home/kasm-default-profile/install_files/gpredict-2.2.1/
       executable: /bin/bash
-  - name: Delete GPredict source files
-    shell: rm -rf /home/kasm-default-profile/gpredict-2.2.1/
 
 -
   # install GNU Radio Software with Apt
