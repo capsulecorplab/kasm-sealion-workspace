@@ -7,16 +7,16 @@
   gather_facts: yes
   tags: always
 
-  # Vars: variables that will apply to the play, on all targets 
+  # Vars: variables that will apply to the play, on all targets
 
-  # Tasks: the list of tasks that will be executed within 
-  #        the play, this section can also be used for 
+  # Tasks: the list of tasks that will be executed within
+  #        the play, this section can also be used for
   #        pre and post tasks
   tasks:
     # from https://superuser.com/questions/1395954/ansible-playbook-to-determine-os-release
   - name: System details
     debug: msg="{{ item }}"
-    with_items: 
+    with_items:
     - "{{ ansible_distribution }}"
     - "{{ ansible_distribution_version }}"
     - "{{ ansible_distribution_major_version }}"
@@ -34,13 +34,13 @@
   - name: Add fix for .gnupg/ permissions
     lineinfile:
       path: "/etc/bash.bashrc"
-      line: "chmod 700 ~/.gnupg/"    
+      line: "chmod 700 ~/.gnupg/"
   - name: Add custom prompt to /etc/skel/.profile
     lineinfile:
       path: "/etc/skel/.profile"
       line: 'export PS1="\[\033[00;32m\][\w]\$\[\033[00m\] "'
 
-  # Handlers: the list of handlers that are executed as a notify 
+  # Handlers: the list of handlers that are executed as a notify
   #           key from a task
 
   # Roles: list of roles to be imported into the play
@@ -254,6 +254,56 @@
     shell: echo "[Desktop Entry]\nName=Eclipse\nGenericName=Eclipse IDE\nExec=/home/kasm-user/eclipse/eclipse\nIcon=/home/kasm-user/eclipse/plugins/org.eclipse.platform_4.11.0.v20190307-0500/eclipse48.png\nTerminal=false\nType=Application\nStartupNotify=false\nCategories=Application;Development;" > ~/.local/share/applications/eclipse.desktop
 
 -
+  # install PlantUML
+  hosts: localhost
+  connection: local
+  gather_facts: yes
+  tags: install_generator_plantuml
+
+  vars:
+    jdk_version: 2:1.11-72
+    graphviz_version_expected: "dot - graphviz version 2.50.0 (20211204.2007)"
+
+  tasks:
+  - name: Install JDK
+    apt:
+      name: "default-jdk={{ jdk_version }}"
+      update_cache: yes
+  - name: Get JDK Version
+    shell: java --version | grep -m 1 -i openjdk
+    register: installed_jdk_version
+  - name: Install pre-reqs to build graphviz
+    apt:
+      name: build-essential, libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, zlib1g-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
+      update_cache: yes
+  - name: Expand source files archive
+    unarchive:
+      src: /home/kasm-default-profile/install_files/graphviz-2.50.0.tar.gz
+      dest: /home/kasm-default-profile/install_files/
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/graphviz-2.50.0/README
+  - name: Build graphviz
+    shell:
+      cmd: ./configure --enable-perl=no && make > /tmp/graphviz_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/graphviz-2.50.0/
+      executable: /bin/bash
+  - name: Get graphviz version
+    shell: dot -V
+    register: installed_graphviz_version
+  - name: install plantuml
+    copy:
+      src: /home/kasm-default-profile/install_files/plantuml.jar
+      dest: /usr/local/bin/plantuml.jar
+      remote_src: yes
+  - name: Display JDK and GraphViz versions
+    debug:
+      msg: "JDK = {{ installed_jdk_version.stdout }} | graphviz = {{ installed_graphviz_version.stderr }}"
+  - name: Test Graphviz version
+    fail:
+      msg: "Graphviz Version Error: Expected {{ graphviz_version_expected }} | Found {{ installed_graphviz_version.stderr }}"
+    when: installed_graphviz_version.stderr != graphviz_version_expected
+
+-
   # install chrome
   hosts: localhost
   connection: local
@@ -326,7 +376,7 @@
     shell: git version | sed 's/[[:alpha:]|(|[:space:]]//g'
     register: installed_git_version
   - name: Get keychain version
-    shell: 
+    shell:
       cmd: keychain -V 2> >(grep -i keychain) 2> >(sed 's/[[:alpha:]|(|[:space:]]//g') | fgrep '*' | sed 's/[*~://]//g'
       executable: /bin/bash
     register: installed_keychain_version
@@ -336,7 +386,7 @@
   - name: Test git version
     fail:
       msg: "Git Version Error: Expected {{ git_version }} | Found {{ installed_git_version.stdout }}"
-    when: installed_git_version.stdout != git_version  
+    when: installed_git_version.stdout != git_version
   - name: Test keychain version
     fail:
       msg: "Keychain Version Error: Expected {{ keychain_version_expected }} | Found {{ installed_keychain_version.stdout }}"
@@ -555,8 +605,8 @@
       name: gnuradio
       update_cache: yes
 
-- 
-  # install sudo for the vs-code role below 
+-
+  # install sudo for the vs-code role below
   hosts: localhost
   connection: local
   tasks:
@@ -584,7 +634,7 @@
   # install the remainder of the tools
   hosts: localhost
   connection: local
-  environment: 
+  environment:
     DONT_PROMPT_WSL_INSTALL: 1
   roles:
     - role: gantsign.visual-studio-code
@@ -592,20 +642,24 @@
         - username: "dev"
           visual_studio_code_extensions:
             - ms-python.python
+            - jebbs.plantuml
           visual_studio_code_settings_overwrite: yes
           visual_studio_code_settings: {
             "extensions.ignoreRecommendations": true,
             "update.mode": "none",
             "extensions.autoUpdate": false,
             "extensions.autoCheckUpdates": false,
+            "plantuml.exportFormat": "png",
+            "plantuml.jar": "/usr/local/bin/plantuml.jar",
+            "plantuml.render": "Local",
             "terminal.integrated.profiles.linux": {
               "bash (login)": {
                 "path": "bash",
                 "args": ["-l"]
                 }
               },
-            "terminal.integrated.defaultProfile.linux": "bash (login)" 
-          }  
+            "terminal.integrated.defaultProfile.linux": "bash (login)"
+          }
 
 -
   # Copy VS Code changes to kasm-default-profile and lean up (remove) dev user now that vs code is installed
@@ -613,13 +667,13 @@
   connection: local
   tasks:
   - name: Copy VS Code changes to kasm-default-profile
-    shell: 
+    shell:
       cmd: cp -r /home/dev/.config/Code/ /home/kasm-default-profile/.config/Code/ && cp -r /home/dev/.vscode/ /home/kasm-default-profile/.vscode/
   - name: Remove dev user
     user:
       name: dev
       state: absent
-      remove: yes 
+      remove: yes
 
 # Three dots indicate the end of a YAML document
 ...
