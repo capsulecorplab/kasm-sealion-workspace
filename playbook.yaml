@@ -411,6 +411,7 @@
     - install_cross_compile_toolchain
     - install_avr_build_tools
     - install_gs_avr_toolchain
+    - install_doctools
 
   tasks:
   - name: Install gcc-arm-linux-gnueabihf with Apt
@@ -454,35 +455,34 @@
   tags: install_doctools
 
   tasks:
-  - name: Download ruby v3.1.2 source tarball
-    shell: wget https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.gz -O /home/kasm-default-profile/ruby-3.1.2.tar.gz
   - name: Extract ruby source tarball
     unarchive:
-      src: /home/kasm-default-profile/ruby-3.1.2.tar.gz
-      dest: /home/kasm-default-profile
+      src: /home/kasm-default-profile/install_files/ruby-3.1.2.tar.gz
+      dest: /home/kasm-default-profile/install_files
       remote_src: yes
-      creates: /home/kasm-default-profile/ruby-3.1.2
-  - name: Delete ruby source tarball
-    shell: rm -rf /home/kasm-default-profile/ruby-3.1.2.tar.gz
+      creates: /home/kasm-default-profile/install_files/ruby-3.1.2
   - name: Build ruby
     shell:
       cmd: make configure && ./configure --prefix=/usr && make > /tmp/ruby_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/ruby-3.1.2
+      chdir: /home/kasm-default-profile/install_files/ruby-3.1.2
       executable: /bin/bash
-  - name: Delete ruby source files
-    shell: rm -rf /home/kasm-default-profile/ruby-3.1.2
-  - name: Download jabref deb
-    shell: wget https://github.com/JabRef/jabref/releases/download/v5.6/jabref_5.6-1_amd64.deb -O /home/kasm-default-profile/jabref_5.6-1_amd64.deb
-  - name: install jabref
+  - name: Join parts of jabref tarball
+    shell: cat /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb.part* > /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
+  - name: install jabref from deb
     apt:
-      deb: /home/kasm-default-profile/jabref_5.6-1_amd64.deb
+      deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
       update_cache: yes
-  - name: Delete jabref deb
-    shell: rm /home/kasm-default-profile/jabref_5.6-1_amd64.deb
-  - name: install zlib with Apt
-    apt:
-      name: zlib1g-dev
-      update_cache: yes
+  - name: extract zlib v1.2.13 tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/READMe
+  - name: Build zlib v1.2.13
+    shell:
+      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
+      executable: /bin/bash
   - name: install asciidoctor-bibtex as ruby gem
     shell: gem install asciidoctor-bibtex
   - name: install asciidoctor-diagram as ruby gem
