@@ -52,6 +52,44 @@
 # addtional plays
 
 -
+  # Install build-essential
+  hosts: localhost
+  connection: local
+  tags:
+  - install_doctools
+  - install_generator_plantuml
+  - install_cross_compile_toolchain
+  - install_avr_build_tools
+  - install_gs_avr_toolchain
+
+  tasks:
+  - name: Install build-essential
+    apt:
+      name: build-essential
+      update_cache: yes
+
+-
+  # Install zlib
+  hosts: localhost
+  connection: local
+  tags:
+  - install_doctools
+  - install_generator_plantuml
+
+  tasks:
+  - name: Extract zlib v1.2.13 source from tarball
+    unarchive:
+      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
+      dest: /home/kasm-default-profile/install_files
+      remote_src: yes
+      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/READMe
+  - name: Build zlib v1.2.13
+    shell:
+      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
+      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
+      executable: /bin/bash
+
+-
   # Install gs-avr-toolchain
   hosts: localhost
   connection: local
@@ -274,7 +312,7 @@
     register: installed_jdk_version
   - name: Install pre-reqs to build graphviz
     apt:
-      name: build-essential, libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, zlib1g-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
+      name: libcairo2-dev, libexpat-dev, libfreetype-dev, libgd-dev, fontconfig-config, libglib2.0-dev, libgtk2.0-dev, libpng-dev, libsdl-pango-dev, libgts-bin, libgtk-3-dev, libgtkglext1-dev, glade, freeglut3-dev, autoconf, automake, bison, flex, ghostscript, libtool, pkg-config, swig
       update_cache: yes
   - name: Expand source files archive
     unarchive:
@@ -480,10 +518,6 @@
     apt:
       name: libssl-dev
       update_cache: yes
-  - name: Install build-essential with Apt
-    apt:
-      name: build-essential
-      update_cache: yes
   - name: Extract cmake source files
     unarchive:
       src: /home/kasm-default-profile/install_files/cmake-3.23.1.tar.gz
@@ -527,17 +561,6 @@
     apt:
       deb: /home/kasm-default-profile/install_files/jabref_5.6-1_amd64.deb
       update_cache: yes
-  - name: extract zlib v1.2.13 tarball
-    unarchive:
-      src: /home/kasm-default-profile/install_files/zlib-1.2.13.tar.gz
-      dest: /home/kasm-default-profile/install_files
-      remote_src: yes
-      creates: /home/kasm-default-profile/install_files/zlib-1.2.13/READMe
-  - name: Build zlib v1.2.13
-    shell:
-      cmd: ./configure && make > /tmp/zlib_build_output.txt 2>&1 && make install
-      chdir: /home/kasm-default-profile/install_files/zlib-1.2.13/
-      executable: /bin/bash
   - name: install asciidoctor-bibtex as ruby gem
     shell: gem install asciidoctor-bibtex
   - name: install asciidoctor-diagram as ruby gem
