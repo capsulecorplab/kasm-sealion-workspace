@@ -3,7 +3,7 @@ version: "3.7"
 services:
   kasm:
     build: .
-    image: ghcr.io/odu-cga-cubesat/sealion-workspace-image:main
+    image: ghcr.io/capsulecorplab/kasm-sealion-workspace:dev
     ports:
       - "6901:6901"
       - "50000:50000"
