@@ -17,9 +17,9 @@ services:
       - type: bind
         source: ./kasm_user
         target: /home/kasm-user
-      - type: bind
-        source: /run/user/1000/pulse/
-        target: /run/user/1000/pulse/
+#      - type: bind
+#        source: /run/user/1000/pulse/
+#        target: /run/user/1000/pulse/
     security_opt:
       - seccomp=unconfined
 ...
