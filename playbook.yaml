@@ -406,6 +406,10 @@
       executable: /bin/bash
   - name: Delete git source files
     shell: rm -rf /home/kasm-default-profile/git-2.38.1
+  - name: Install Bash Completion
+    apt:
+      name: bash-completion
+      update_cache: yes
   - name: Install Keychain
     apt:
       name: "keychain={{ keychain_version_to_install }}"
