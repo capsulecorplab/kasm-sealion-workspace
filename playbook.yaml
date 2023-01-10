@@ -479,6 +479,8 @@
   - name: Install fprime (v3.1.1) python packages & dependencies
     pip:
       requirements: https://raw.githubusercontent.com/nasa/fprime/v3.1.1/requirements.txt
+  - name: install & configure poetry
+    shell: curl -sSL https://install.python-poetry.org | POETRY_HOME=/usr/local/bin/poetry python3 -
 
 -
   # install Git LFS
